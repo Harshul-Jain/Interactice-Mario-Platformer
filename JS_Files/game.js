@@ -59,6 +59,9 @@ function create(){
     //set bounce values
     this.player.setBounce(0.5);
     
+    //don't allow player to move out of game world
+    this.player.setCollideWorldBounds(true);
+    
     this.anims.create({
        key:'left',
         frames:this.anims.generateFrameNumbers('dude',{start:0,end:3}),
@@ -117,6 +120,12 @@ function create(){
     
     //input cursor-keyboard
     this.cursors=this.input.keyboard.createCursorKeys();
+    
+    //create camera
+    this.cameras.main.setBounds(0,0,W,H);
+    this.cameras.main.startFollow(this.player,true,true);
+    this.physics.world.setBounds(0,0,W,H);
+    this.cameras.main.setZoom(1.5);
     
 }
 
