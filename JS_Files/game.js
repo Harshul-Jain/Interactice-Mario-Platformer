@@ -24,7 +24,12 @@ let config={
         update:update,
     },
 };
+
 let game=new Phaser.Game(config);
+let player_config={
+    player_speed:150,
+    player_jump:-700,
+};
 
 function preload(){
     this.load.image("ground","./Assets/topground.png");
@@ -84,12 +89,28 @@ function create(){
     //ground.body.immovable=true;
     
     //add a collision detection between player and ground
-    this.physics.add.collider(this.player,ground);
+    this.physics.add.collider(this.player,platforms);
     //this.physics.add.collider(ground,fruits);
     this.physics.add.collider(platforms,fruits);
+    
+    //input cursor-keyboard
+    this.cursors=this.input.keyboard.createCursorKeys();
     
 }
 
 function update(){
+    if(this.cursors.left.isDown){
+        this.player.setVelocityX(-player_config.player_speed);
+    }
+    else if(this.cursors.right.isDown){
+        this.player.setVelocityX(player_config.player_speed);
+    }
+    else{
+        this.player.setVelocityX(0);
+    }
     
+    //add jumping ability
+    if(this.cursors.up.isDown && this.player.body.touching.down){
+        this.player.setVelocityY(player_config.player_jump);
+    }
 }
