@@ -36,6 +36,7 @@ function preload(){
     this.load.image("sky","./Assets/background.png");
     this.load.spritesheet('dude',"./Assets/dude.png",{frameWidth:32,frameHeight:48});
     this.load.image("apple","./Assets/apple.png");
+    this.load.image("ray","./Assets/ray.png");
     
 }
 
@@ -50,9 +51,34 @@ function create(){
     //try to create background 
     let background=this.add.sprite(0,0,'sky');
     background.setOrigin(0,0);
-    background.depth=-1;
+    background.depth=-2;
     background.displayWidth=W;
     background.displayHeight=H;
+    
+    //create ray on the background
+    let rays=[];
+    
+    for(let i=-10;i<=10;i++){
+        let ray=this.add.sprite(W/2,H-100,'ray');
+        ray.displayHeight=1.2*H;
+        ray.setOrigin(0.5,1);
+        ray.alpha=0.2;
+        ray.angle=i*20;
+        ray.depth=-1;
+        rays.push(ray);
+    }
+    
+    //tweens
+    this.tweens.add({
+        targets:rays,
+        props:{
+            angle:{
+                value:"+=20",
+            },
+        },
+        duration:8000,
+        repeat:-1
+    });
     
     //Adding player
     this.player=this.physics.add.sprite(100,100,'dude',4);
