@@ -13,7 +13,8 @@ let config={
         arcade:{
             gravity:{
                 y:1000,
-            }
+            },
+            debug:true,
         }
     },
     
@@ -61,10 +62,18 @@ function create(){
         setXY:{x:10,y:0,stepX:100},
     });
     
-    //add bouncing effect to all apples
+    //add bouncing effect to all apples(One method of creating Groups)
     fruits.children.iterate(function(f){
-        f.setBounce(Phaser.Math.FloatBetween(0.4,0.7));
+        f.setBounce(Phaser.Math.FloatBetween(0.4,0.72));
     });
+    
+    //create more platforms(Second Method of creating Groups)
+    let platforms=this.physics.add.staticGroup();
+    platforms.create(600,400,'ground').setScale(2,0.5).refreshBody();
+    platforms.create(700,200,'ground').setScale(2,0.5).refreshBody();
+    platforms.create(100,200,'ground').setScale(2,0.5).refreshBody();
+    platforms.add(ground);
+    
     this.physics.add.existing(ground);
     ground.body.allowGravity=false;
     ground.body.immovable=true;
@@ -76,7 +85,8 @@ function create(){
     
     //add a collision detection between player and ground
     this.physics.add.collider(this.player,ground);
-    this.physics.add.collider(ground,fruits);
+    //this.physics.add.collider(ground,fruits);
+    this.physics.add.collider(platforms,fruits);
     
 }
 
