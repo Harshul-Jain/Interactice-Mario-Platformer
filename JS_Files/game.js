@@ -113,6 +113,7 @@ function create(){
     this.physics.add.collider(this.player,platforms);
     //this.physics.add.collider(ground,fruits);
     this.physics.add.collider(platforms,fruits);
+    this.physics.add.overlap(this.player,fruits,eatFruit,null,this);
     
     //input cursor-keyboard
     this.cursors=this.input.keyboard.createCursorKeys();
@@ -137,4 +138,8 @@ function update(){
     if(this.cursors.up.isDown && this.player.body.touching.down){
         this.player.setVelocityY(player_config.player_jump);
     }
+}
+
+function eatFruit(player,fruits){
+    fruits.disableBody(true,true);
 }
