@@ -24,7 +24,6 @@ let config={
         update:update,
     },
 };
-
 let game=new Phaser.Game(config);
 let player_config={
     player_speed:150,
@@ -43,6 +42,8 @@ function preload(){
 function create(){
     W=game.config.width;
     H=game.config.height;
+    this.score=0;
+    this.score_text=null;
     
     //Add tileSprite
     let ground=this.add.tileSprite(0,H-128,W,128,'ground');
@@ -54,6 +55,9 @@ function create(){
     background.depth=-2;
     background.displayWidth=W;
     background.displayHeight=H;
+    
+    //Adding Score 
+    this.score_text=this.add.text(16,16,'score: 0',{fontSize:'32px',fill:'#000'});
     
     //create ray on the background
     let rays=[];
@@ -177,4 +181,7 @@ function update(){
 
 function eatFruit(player,fruits){
     fruits.disableBody(true,true);
+    //Update Score
+    this.score+=10;
+    this.score_text.setText('Score: '+ this.score);
 }
