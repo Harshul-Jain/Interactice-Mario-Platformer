@@ -3,6 +3,7 @@ let config={
     
     scale:{
         mode:Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
         width:800,
         height:600,
     },
@@ -36,6 +37,7 @@ function preload(){
     this.load.spritesheet('dude',"./Assets/dude.png",{frameWidth:32,frameHeight:48});
     this.load.image("apple","./Assets/apple.png");
     this.load.image("ray","./Assets/ray.png");
+    this.load.spritesheet("fullscreen","./Assets/fullscreen.png",{frameWidth:64,frameHeight:64});
     
 }
 
@@ -155,8 +157,20 @@ function create(){
     this.cameras.main.setBounds(0,0,W,H);
     this.cameras.main.startFollow(this.player,true,true);
     this.physics.world.setBounds(0,0,W,H);
-    this.cameras.main.setZoom(1.5);
+    this.cameras.main.setZoom(1.1);
     
+    //fullScreen Button
+    var button=this.add.image(800-32,16,'fullscreen',0).setOrigin(2,0).setInteractive();
+    button.on('pointerup',function(){
+        if(this.scale.isFullscreen){
+            button.setFrame(0);
+            this.scale.stopFullscreen();
+        }
+        else{
+        button.setFrame(1);
+        this.scale.startFullscreen();
+        }
+    },this);
 }
 
 function update(){
